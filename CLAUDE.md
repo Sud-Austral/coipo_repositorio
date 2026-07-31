@@ -91,6 +91,24 @@ Al agregar o editar una aplicación, respetar el tono del INSUMO:
 
 ---
 
+## Sistema visual
+
+El sitio está **comprometido con el modo oscuro**: no invierte según la preferencia del
+sistema. Color en `oklch()` para que los degradados y los estados no se ensucien al
+interpolar. Tipografía del sistema para texto y monoespaciada para nombres de aplicación,
+índices y etiquetas.
+
+El movimiento va ligado al scroll con `animation-timeline` (`scroll()` y `view()`), no con
+listeners de JavaScript: corre en el compositor y no toca el hilo principal.
+
+**Regla que no se puede saltar:** toda animación con `animation-timeline` debe ir dentro de
+`@supports (animation-timeline: …)` y de `@media (prefers-reduced-motion: no-preference)`.
+Sin el `@supports`, un navegador que no soporte la propiedad la ignora, la animación corre
+con duración 0 y **los elementos quedan en su estado inicial: invisibles**.
+
+Al tocar colores, verificar contraste midiendo el color renderizado —`oklch` hay que
+resolverlo a sRGB para calcular el ratio—, no estimándolo a ojo.
+
 ## Impresión y PDF
 
 La descarga en PDF usa la impresión del navegador. El PDF debe contener **solo las 13 fichas**

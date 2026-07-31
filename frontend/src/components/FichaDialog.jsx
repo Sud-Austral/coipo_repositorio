@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { IconClose } from './Icons.jsx'
+import { useEffect, useLayoutEffect, useRef } from 'react'
+import { IconClose, IconMail } from './Icons.jsx'
 
 // Ficha ampliada de una aplicación (segundo nivel del catálogo).
 //
@@ -10,7 +10,10 @@ import { IconClose } from './Icons.jsx'
 export default function FichaDialog({ app, onClose }) {
   const ref = useRef(null)
 
-  useEffect(() => {
+  // useLayoutEffect y no useEffect: la ficha debe estar abierta ANTES de que
+  // la View Transition tome la instantánea del nuevo estado. Con useEffect la
+  // transición captura la página sin el modal y el efecto no se ve.
+  useLayoutEffect(() => {
     const dialog = ref.current
     if (!dialog) return
     if (app && !dialog.open) dialog.showModal()
@@ -58,6 +61,14 @@ export default function FichaDialog({ app, onClose }) {
           <p className="ficha__simple">{app.simple}</p>
           <hr className="ficha__rule" />
           <p className="ficha__detalle">{app.detallada}</p>
+
+          <p className="ficha__accion">
+            <span>¿Le sirve esta herramienta a su unidad?</span>
+            <a href={`mailto:luis.monsalve@conaf.cl?subject=${encodeURIComponent(`Consulta sobre ${app.nombre}`)}`}>
+              <IconMail width="18" height="18" />
+              Escríbanos
+            </a>
+          </p>
         </div>
       )}
     </dialog>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 import { apps } from './data/apps.js'
 import FichaDialog from './components/FichaDialog.jsx'
 import { IconArrow, IconDownload, IconMail } from './components/Icons.jsx'
@@ -32,8 +33,35 @@ const CONTACTOS = [
   { nombre: 'Rodrigo Parra', correo: 'rodrigo.parra@conaf.cl' },
 ]
 
+const menosMovimiento = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 function App() {
   const [seleccionada, setSeleccionada] = useState(null)
+
+  // Abre la ficha con View Transitions cuando el navegador las soporta.
+  // Donde no existen, o donde el usuario pidió menos movimiento, el cambio
+  // es instantáneo: la funcionalidad nunca depende de la animación.
+  const abrirFicha = (app) => {
+    if (!document.startViewTransition || menosMovimiento()) {
+      setSeleccionada(app)
+      return
+    }
+    document.startViewTransition(() => flushSync(() => setSeleccionada(app)))
+  }
+
+  // Mueve el foco de luz de la tarjeta bajo el puntero.
+  const seguirLuz = (e) => {
+    const caja = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty(
+      '--luz-x',
+      `${((e.clientX - caja.left) / caja.width) * 100}%`,
+    )
+    e.currentTarget.style.setProperty(
+      '--luz-y',
+      `${((e.clientY - caja.top) / caja.height) * 100}%`,
+    )
+  }
 
   return (
     <>
@@ -58,13 +86,17 @@ function App() {
         </div>
       </header>
 
-      <main id="contenido">
+      {/* tabIndex -1 para que el enlace "saltar al contenido" mueva el foco
+          de verdad y no solo el scroll. */}
+      <main id="contenido" tabIndex={-1}>
         <section className="hero">
+          <div className="hero__malla" aria-hidden="true" />
+          <div className="hero__grano" aria-hidden="true" />
+
           <div className="wrap hero__inner">
             <p className="eyebrow">Catálogo de aplicaciones</p>
             <h1 className="hero__titulo">
-              El software que CONAF construye
-              <span className="hero__titulo-acento"> puertas adentro</span>
+              El software que CONAF construye <em>puertas adentro</em>
             </h1>
             <p className="hero__bajada">
               COIPO es el ecosistema de aplicaciones que desarrolla la Unidad de
@@ -95,10 +127,14 @@ function App() {
               <div>
                 <p className="eyebrow">El catálogo</p>
                 <h2 id="catalogo-titulo">Aplicaciones</h2>
+                <p className="seccion__intro">
+                  Cada tarjeta abre una ficha con el detalle de qué resuelve la
+                  aplicación y a quién atiende.
+                </p>
               </div>
               <button
                 type="button"
-                className="boton boton--secundario"
+                className="boton"
                 onClick={() => window.print()}
               >
                 <IconDownload width="18" height="18" />
@@ -106,28 +142,30 @@ function App() {
               </button>
             </div>
 
-            <p className="seccion__intro">
-              Cada tarjeta abre una ficha con el detalle de qué resuelve la aplicación
-              y a quién atiende.
-            </p>
-
             <ul className="grilla">
-              {apps.map((app) => (
+              {apps.map((app, i) => (
                 <li key={app.nombre}>
-                  <article className="tarjeta">
+                  <article className="tarjeta" onPointerMove={seguirLuz}>
+                    <p className="tarjeta__indice" aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </p>
                     <h3 className="tarjeta__nombre">
                       <button
                         type="button"
                         className="tarjeta__trigger"
-                        onClick={() => setSeleccionada(app)}
+                        onClick={() => abrirFicha(app)}
                       >
                         {app.nombre}
+                        {/* Completa el nombre accesible sin tapar el texto
+                            visible: un lector anuncia "coipo_prensa2, ver
+                            ficha", no solo el nombre suelto. */}
+                        <span className="vh">, ver ficha</span>
                       </button>
                     </h3>
                     <p className="tarjeta__simple">{app.simple}</p>
                     <span className="tarjeta__pie" aria-hidden="true">
                       Ver ficha
-                      <IconArrow width="16" height="16" />
+                      <IconArrow width="15" height="15" />
                     </span>
                   </article>
                 </li>
@@ -136,7 +174,11 @@ function App() {
           </div>
         </section>
 
-        <section id="unidad" className="seccion seccion--alt" aria-labelledby="unidad-titulo">
+        <section
+          id="unidad"
+          className="seccion seccion--alt"
+          aria-labelledby="unidad-titulo"
+        >
           <div className="wrap">
             <p className="eyebrow">La unidad</p>
             <h2 id="unidad-titulo">Quiénes somos</h2>
@@ -200,9 +242,7 @@ function App() {
         únicamente las fichas, sin encabezado, quiénes somos ni contacto.
       */}
       <section className="impresion" aria-hidden="true">
-        <h2 className="impresion__titulo">
-          COIPO — Catálogo de aplicaciones
-        </h2>
+        <h2 className="impresion__titulo">COIPO — Catálogo de aplicaciones</h2>
         {apps.map((app) => (
           <article key={app.nombre} className="impresion__ficha">
             <h3>{app.nombre}</h3>
