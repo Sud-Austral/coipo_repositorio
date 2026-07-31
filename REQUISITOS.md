@@ -10,6 +10,7 @@
 
 ## 1. Resumen ejecutivo
 
+
 Sitio web público y estático que expone en un solo lugar el catálogo de las 13 aplicaciones
 desarrolladas por la Unidad de Información y Análisis de CONAF bajo la marca COIPO. Es una
 **vitrina institucional**: su objetivo es mostrar hacia afuera —jefaturas de CONAF, otros
