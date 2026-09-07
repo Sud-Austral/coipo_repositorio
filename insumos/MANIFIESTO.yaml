@@ -1,0 +1,98 @@
+archivos:
+
+  - ruta: frontend/src/data/apps.js
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador. Es el unico archivo de contenido del sistema y la pagina declara una agrupacion de contactos [frontend/src/App.jsx] y dispone de un icono de correo [frontend/src/components/Icons.jsx]. Patron esperado: nombres de responsables y direcciones de correo de contacto. Conteo no disponible."
+    puede_versionarse: "[VERIFICAR] depende del resultado de contiene_pii; hoy esta versionado y se publica tal cual [.github/workflows/deploy.yml]"
+    uso: unica fuente del listado de aplicaciones que muestra la pagina
+
+  - ruta: INSUMO/documento_web.md
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador; es un documento de insumo entregado por alguien; patron posible: nombres de personas o de unidades; conteo no disponible"
+    puede_versionarse: "[VERIFICAR] depende del resultado de contiene_pii"
+    uso: insumo escrito del que salio el contenido de la pagina; no lo consume ningun codigo
+
+  - ruta: INSUMO/ui_ux.md
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador; es el archivo mas extenso del repositorio; patron posible: nombres de personas o de unidades; conteo no disponible"
+    puede_versionarse: "[VERIFICAR] depende del resultado de contiene_pii"
+    uso: insumo escrito de diseno de la interfaz; no lo consume ningun codigo
+
+  - ruta: REQUISITOS.md
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador; patron posible: nombres de solicitantes de requisitos; conteo no disponible"
+    puede_versionarse: "[VERIFICAR] depende del resultado de contiene_pii"
+    uso: enunciado de requisitos conservado en el repositorio
+
+  - ruta: mejora_visual.md
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador; patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: registro de una ronda de ajustes de presentacion
+
+  - ruta: frontend/package.json
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: unico manifiesto del repositorio; declara siete dependencias y cuatro comandos
+
+  - ruta: frontend/package-lock.json
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: fija las versiones exactas instaladas
+
+  - ruta: frontend/vite.config.js
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: configura el empaquetado de la pagina
+
+  - ruta: frontend/.oxlintrc.json
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: reglas del revisor estatico que ejecuta [frontend/package.json:9]
+
+  - ruta: .github/workflows/deploy.yml
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: nombres de repositorio y de entorno; conteo no disponible"
+    puede_versionarse: true
+    uso: construye y publica la pagina
+
+  - ruta: .github/workflows/readme.yml
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: regenera el README del repositorio
+
+  - ruta: frontend/index.html
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: documento raiz que carga la aplicacion
+
+  - ruta: CLAUDE.md
+    sha256: "[PENDIENTE] sin calcular"
+    origen: "[PENDIENTE] quien lo entrego y cuando"
+    contiene_pii: "[VERIFICAR] no leido por el analizador; patron esperado: ninguno; conteo no disponible"
+    puede_versionarse: true
+    uso: instrucciones de trabajo conservadas en el repositorio; no lo consume ningun codigo
+
+notas:
+  - "Ningun sha256 de esta lista fue calculado aqui: los calcula el script de sellado."
+  - "El analizador no abrio el contenido de ningun archivo de esta lista. Los campos contiene_pii declaran el patron esperado y dejan el conteo sin responder; no contienen ningun valor."
+  - "[PENDIENTE] Falta declarar el origen de los trece archivos de este manifiesto. Ninguno lo trae escrito."
+  - "Este repositorio no tiene base de datos, ni API, ni variables de entorno, ni archivos de datos fuera de [frontend/src/data/apps.js]. El manifiesto es corto porque el repositorio lo es."
