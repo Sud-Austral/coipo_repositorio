@@ -48,7 +48,7 @@ Cualquier cambio debe verificarse contra estos dos antes de darlo por terminado.
 
 ```bash
 cd frontend
-npm install       # instalar dependencias
+npm ci            # instalar dependencias (respeta package-lock.json)
 npm run dev       # servidor de desarrollo
 npm run build     # compilar a frontend/dist
 npm run preview   # previsualizar lo compilado
@@ -61,6 +61,9 @@ npm run lint      # oxlint
 | Vite | 8 |
 | oxlint | 1.75 |
 | Node | 22 |
+
+Verificado el 2026-11-24: `npm ci`, `npm run build` y `npm run lint` pasan (lint sin hallazgos).
+El catálogo tiene 13 aplicaciones en `frontend/src/data/apps.js` (contado con `grep`).
 
 ---
 
@@ -75,6 +78,8 @@ Actions al hacer push a `main`.
 aquí y coincide con uno de los dos fracasos inaceptables.
 
 Si se cambia el nombre del repositorio o la organización, hay que actualizar `base`.
+
+El workflow de README de la flota (`readme.yml`) se quitó el 2026-10-25: el README se mantiene a mano.
 
 ---
 
